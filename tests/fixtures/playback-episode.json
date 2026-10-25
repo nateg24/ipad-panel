@@ -1,0 +1,11 @@
+{
+  "device": { "id": "phone1", "is_active": true, "type": "Smartphone", "name": "iPhone" },
+  "is_playing": true,
+  "currently_playing_type": "episode",
+  "item": {
+    "type": "episode",
+    "name": "Episode 12",
+    "images": [{ "url": "https://i.scdn.co/image/episode", "width": 640, "height": 640 }],
+    "show": { "name": "Some Podcast" }
+  }
+}

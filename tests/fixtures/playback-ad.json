@@ -1,0 +1,6 @@
+{
+  "device": { "id": "phone1", "is_active": true, "type": "Smartphone", "name": "iPhone" },
+  "is_playing": true,
+  "currently_playing_type": "ad",
+  "item": null
+}

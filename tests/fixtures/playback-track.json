@@ -1,0 +1,17 @@
+{
+  "device": { "id": "phone1", "is_active": true, "type": "Smartphone", "name": "iPhone" },
+  "is_playing": true,
+  "currently_playing_type": "track",
+  "item": {
+    "type": "track",
+    "name": "Dreams",
+    "artists": [{ "name": "Artist A" }, { "name": "Artist B" }],
+    "album": {
+      "name": "Album",
+      "images": [
+        { "url": "https://i.scdn.co/image/large", "width": 640, "height": 640 },
+        { "url": "https://i.scdn.co/image/small", "width": 64, "height": 64 }
+      ]
+    }
+  }
+}
