@@ -48,8 +48,14 @@
 
   <section id="settings" class="sheet" hidden>
     <h1>Settings</h1>
-    <p><a id="transfer-link" href="#">Send-to-iPad link</a></p>
-    <p class="hint">Open this link in Safari on the iPad (AirDrop, Messages or email it to yourself). Then tap Log out here, so the two devices don't fight over the same login.</p>
+    <div id="handoff">
+      <p class="hint">Moving the login logs this device out and makes a link to open in Safari on the iPad.</p>
+      <p><button id="btn-handoff">Move login to iPad</button></p>
+    </div>
+    <div id="handoff-done" hidden>
+      <p><a id="transfer-link" href="#">Send-to-iPad link</a></p>
+      <p class="hint">This device is now logged out. Long-press the link to share it (AirDrop, Messages or email it to yourself), open it in Safari on the iPad, then delete the message — it contains your Spotify login.</p>
+    </div>
     <p>
       <button id="btn-logout">Log out</button>
       <button id="btn-close" class="primary">Done</button>

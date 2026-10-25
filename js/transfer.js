@@ -6,5 +6,10 @@ export function buildTransferLink(baseUrl, refreshToken) {
 
 export function readTransferFragment(hash) {
   const match = /^#rt=(.+)$/.exec(hash || '');
-  return match ? decodeURIComponent(match[1]) : null;
+  if (!match) return null;
+  try {
+    return decodeURIComponent(match[1]);
+  } catch (e) {
+    return null; // truncated or mangled link
+  }
 }

@@ -139,3 +139,19 @@ test('logout clears everything', () => {
   assert.equal(auth.isLoggedIn(), false);
   assert.equal(storage.getItem('panel.accessToken'), null);
 });
+
+test('concurrent refreshes share one token request', async () => {
+  const { fetch, auth } = setup({
+    stored: { 'panel.refreshToken': 'RT1' },
+    responses: [{ status: 200, body: { access_token: 'NEW', refresh_token: 'RT2', expires_in: 3600 } }],
+  });
+  const results = await Promise.all([auth.getAccessToken({ force: true }), auth.getAccessToken({ force: true })]);
+  assert.deepEqual(results, ['NEW', 'NEW']);
+  assert.equal(fetch.calls.length, 1);
+});
+
+test('importRefreshToken drops any old access token', async () => {
+  const { storage, auth } = setup({ stored: { 'panel.accessToken': 'OLD', 'panel.expiresAt': '9999999999' } });
+  auth.importRefreshToken('rt');
+  assert.equal(storage.getItem('panel.accessToken'), null);
+});

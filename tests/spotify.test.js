@@ -128,3 +128,12 @@ test('a control answered with 200 and an empty body resolves', async () => {
   const { spotify } = setup([empty]);
   await spotify.next();
 });
+
+test('backoffMs escalates on repeated rate limits and caps at 5 minutes', async () => {
+  const { backoffMs } = await import('../js/spotify.js');
+  assert.equal(backoffMs(5, 0), 5000);
+  assert.equal(backoffMs(5, 1), 10000);
+  assert.equal(backoffMs(5, 3), 40000);
+  assert.equal(backoffMs(30, 1), 30000);
+  assert.equal(backoffMs(5, 20), 300000);
+});

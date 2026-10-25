@@ -1,6 +1,12 @@
 const API = 'https://api.spotify.com/v1/me/player';
 // Spotify may not expose Retry-After to the browser; back off this long when it's unreadable.
 const DEFAULT_RETRY_AFTER_SEC = 5;
+const MAX_BACKOFF_MS = 5 * 60 * 1000;
+
+// Doubles the wait on each consecutive rate limit (strikes = 0 for the first).
+export function backoffMs(retryAfterSec, strikes) {
+  return Math.min(MAX_BACKOFF_MS, Math.max(retryAfterSec * 1000, DEFAULT_RETRY_AFTER_SEC * 1000 * Math.pow(2, strikes)));
+}
 
 export class RateLimitError extends Error {
   constructor(retryAfterSec) {

@@ -11,10 +11,9 @@ previous / play-pause / next. Weather is Green Bay, WI, from [Open-Meteo](https:
 Spotify's login page doesn't work in iOS 12 Safari, so log in somewhere else and send it over:
 
 1. On your phone or computer, open the page above and tap **Log in with Spotify**.
-2. Tap **⚙︎** (bottom right) and send the **Send-to-iPad link** to the iPad (AirDrop, Messages or email).
-3. Open the link in **Safari** on the iPad.
-4. Back on the phone/computer, tap **Log out** so the two devices don't fight over the login.
-5. Delete the message or email: the link contains your Spotify login.
+2. Tap **⚙︎** (bottom right), then **Move login to iPad**. That device logs out and shows a link.
+3. Long-press the link and share it to the iPad (AirDrop, Messages or email), then open it in **Safari** on the iPad.
+4. Delete the message or email: the link contains your Spotify login. Safari may also keep it in History.
 
 Don't use Add to Home Screen: a Home Screen app on iOS 12 has its own storage and won't see the login.
 

@@ -16,3 +16,7 @@ test('fragments without a token read as null', () => {
   assert.equal(readTransferFragment('#foo=1'), null);
   assert.equal(readTransferFragment('#rt='), null);
 });
+
+test('a mangled fragment reads as null instead of throwing', () => {
+  assert.equal(readTransferFragment('#rt=abc%2'), null);
+});

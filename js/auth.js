@@ -69,12 +69,26 @@ export function createAuth({ storage, fetch, location, crypto, clientId, now }) 
     storage.removeItem(KEYS.verifier);
   }
 
+  // One refresh at a time: Spotify rotates refresh tokens, so two parallel
+  // refreshes with the same token can invalidate each other.
+  let refreshing = null;
+
   async function getAccessToken(opts) {
     const force = opts && opts.force;
     const access = storage.getItem(KEYS.access);
     const expiresAt = Number(storage.getItem(KEYS.expiresAt) || 0);
     if (!force && access && clock() < expiresAt - EXPIRY_MARGIN_MS) return access;
 
+    if (!refreshing) {
+      refreshing = refreshAccessToken().then(
+        (token) => { refreshing = null; return token; },
+        (e) => { refreshing = null; throw e; }
+      );
+    }
+    return refreshing;
+  }
+
+  async function refreshAccessToken() {
     const refresh = storage.getItem(KEYS.refresh);
     if (!refresh) throw new AuthExpiredError();
     const { res, body } = await postToken({ grant_type: 'refresh_token', refresh_token: refresh });
@@ -92,7 +106,10 @@ export function createAuth({ storage, fetch, location, crypto, clientId, now }) 
     completeLogin,
     getAccessToken,
     isLoggedIn: () => !!storage.getItem(KEYS.refresh),
-    importRefreshToken: (rt) => storage.setItem(KEYS.refresh, rt),
+    importRefreshToken: (rt) => {
+      clearTokens();
+      storage.setItem(KEYS.refresh, rt);
+    },
     exportRefreshToken: () => storage.getItem(KEYS.refresh),
     logout: () => {
       clearTokens();
