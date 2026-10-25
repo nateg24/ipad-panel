@@ -1,4 +1,4 @@
-export const CLIENT_ID = '';
+export const CLIENT_ID = '568ae5b0eec84cecb046a9534c6b6eec';
 export const SCOPES = 'user-read-playback-state user-modify-playback-state user-read-currently-playing';
 
 // Green Bay, WI, rounded to city level (the repo is public).
