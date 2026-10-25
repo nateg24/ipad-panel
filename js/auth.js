@@ -60,7 +60,7 @@ export function createAuth({ storage, fetch, location, crypto, clientId, now }) 
   async function completeLogin(code) {
     const { res, body } = await postToken({
       grant_type: 'authorization_code',
-      code: code,
+      code,
       redirect_uri: redirectUri(location),
       code_verifier: storage.getItem(KEYS.verifier) || '',
     });

@@ -25,6 +25,8 @@ let rateLimitStrikes = 0;
 let pollTimer = null;
 let messageTimer = null;
 
+const LOGIN_EXPIRED_MSG = 'Your Spotify login expired. Please log in again.';
+
 // ---- screens ----
 
 function showLogin(msg) {
@@ -62,7 +64,7 @@ function render(np) {
 }
 
 function handleError(e) {
-  if (e instanceof AuthExpiredError) return showLogin('Your Spotify login expired. Please log in again.');
+  if (e instanceof AuthExpiredError) return showLogin(LOGIN_EXPIRED_MSG);
   if (e instanceof RateLimitError) {
     backoffUntil = Date.now() + backoffMs(e.retryAfterSec, rateLimitStrikes);
     rateLimitStrikes++;
@@ -105,7 +107,7 @@ async function control(fn) {
   try {
     await fn();
   } catch (e) {
-    if (e instanceof AuthExpiredError) return showLogin('Your Spotify login expired. Please log in again.');
+    if (e instanceof AuthExpiredError) return showLogin(LOGIN_EXPIRED_MSG);
     if (e instanceof NetworkError) flash('No connection — try again in a moment.');
     else if (e instanceof RateLimitError) flash('Spotify is busy — try again shortly.');
     else flash('Open Spotify on your phone.');
@@ -196,11 +198,13 @@ async function start() {
   importFromHash();
 
   const params = new URLSearchParams(window.location.search);
-  if (params.get('code') || params.get('error')) {
+  const code = params.get('code');
+  const error = params.get('error');
+  if (code || error) {
     history.replaceState(null, '', window.location.pathname);
-    if (params.get('error')) return showLogin('Spotify login was cancelled (' + params.get('error') + ').');
+    if (error) return showLogin('Spotify login was cancelled (' + error + ').');
     try {
-      await auth.completeLogin(params.get('code'));
+      await auth.completeLogin(code);
     } catch (e) {
       return showLogin(e.message);
     }
