@@ -4,16 +4,58 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
   <title>Living Room Panel</title>
-  <style>
-    body { background: #111; color: #eee; font: 24px -apple-system, sans-serif; padding: 40px; }
-    button { font-size: 28px; padding: 24px 40px; border-radius: 12px; border: 0; background: #1db954; color: #000; }
-    #out { margin-top: 30px; white-space: pre-wrap; }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Login test</h1>
-  <button id="btn-login" hidden>Log in with Spotify</button>
-  <div id="out">Loading…</div>
-  <script type="module" src="js/spike.js"></script>
+  <svg width="0" height="0" style="position:absolute">
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></symbol>
+    <symbol id="i-pause" viewBox="0 0 24 24"><path d="M6 4h4.5v16H6zM13.5 4H18v16h-4.5z"/></symbol>
+    <symbol id="i-prev" viewBox="0 0 24 24"><path d="M5 4h2.5v16H5zM20 4.5v15L8.5 12z"/></symbol>
+    <symbol id="i-next" viewBox="0 0 24 24"><path d="M16.5 4H19v16h-2.5zM4 4.5v15L15.5 12z"/></symbol>
+  </svg>
+
+  <main id="panel" class="idle" hidden>
+    <section class="music">
+      <div class="art-wrap"><img id="art" alt="" hidden></div>
+      <div class="info">
+        <div id="title">Nothing playing</div>
+        <div id="subtitle"></div>
+        <div class="controls">
+          <button id="btn-prev" aria-label="Previous"><svg><use xlink:href="#i-prev"/></svg></button>
+          <button id="btn-play" aria-label="Play or pause">
+            <svg class="icon-play"><use xlink:href="#i-play"/></svg>
+            <svg class="icon-pause"><use xlink:href="#i-pause"/></svg>
+          </button>
+          <button id="btn-next" aria-label="Next"><svg><use xlink:href="#i-next"/></svg></button>
+        </div>
+        <div id="message"></div>
+      </div>
+    </section>
+    <footer class="strip">
+      <span id="time"></span>
+      <span id="weather-now"></span>
+      <span id="forecast"></span>
+      <button id="btn-settings" aria-label="Settings">⚙︎</button>
+    </footer>
+  </main>
+
+  <section id="login" class="sheet" hidden>
+    <h1>Living Room Panel</h1>
+    <p id="login-msg"></p>
+    <button id="btn-login" class="primary">Log in with Spotify</button>
+    <p class="hint">Can't log in here? Open this page on your phone or computer, log in, then tap ⚙︎ and send the link to this iPad.</p>
+  </section>
+
+  <section id="settings" class="sheet" hidden>
+    <h1>Settings</h1>
+    <p><a id="transfer-link" href="#">Send-to-iPad link</a></p>
+    <p class="hint">Open this link in Safari on the iPad (AirDrop, Messages or email it to yourself). Then tap Log out here, so the two devices don't fight over the same login.</p>
+    <p>
+      <button id="btn-logout">Log out</button>
+      <button id="btn-close" class="primary">Done</button>
+    </p>
+  </section>
+
+  <script type="module" src="js/app.js"></script>
 </body>
 </html>
